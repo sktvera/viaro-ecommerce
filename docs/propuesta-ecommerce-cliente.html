@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Propuesta funcional ecommerce</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: #18212f;
+      background: #edf1f6;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 186mm;
+      page-break-after: always;
+      background: #f8fafc;
+      border: 1px solid #dbe3ee;
+      border-radius: 12px;
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    .cover {
+      display: grid;
+      grid-template-columns: 0.95fr 1.2fr;
+      gap: 34px;
+      align-items: center;
+      background:
+        linear-gradient(135deg, rgba(33, 97, 140, 0.08), rgba(57, 168, 111, 0.08)),
+        #f8fafc;
+    }
+
+    .eyebrow {
+      color: #21618c;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 46px;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      margin: 0 0 18px;
+      color: #102033;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 0 0 14px;
+      color: #102033;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 0 0 10px;
+      color: #102033;
+    }
+
+    p {
+      margin: 0;
+      color: #526173;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .lead {
+      max-width: 520px;
+      font-size: 18px;
+      color: #465568;
+      margin-bottom: 24px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .meta-card,
+    .panel,
+    .module,
+    .phase,
+    .legend-item {
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 10px;
+      box-shadow: 0 10px 24px rgba(16, 32, 51, 0.06);
+    }
+
+    .meta-card {
+      padding: 14px;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 20px;
+      color: #21618c;
+      margin-bottom: 4px;
+    }
+
+    .visual-card {
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 18px 38px rgba(16, 32, 51, 0.10);
+    }
+
+    .stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .node {
+      min-height: 54px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      padding: 10px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1f2d3d;
+    }
+
+    .node.primary {
+      background: #eaf4fb;
+      border-color: #9cc7e4;
+      color: #174b70;
+    }
+
+    .node.ops {
+      background: #edf8f1;
+      border-color: #a5d8b7;
+      color: #23643a;
+    }
+
+    .node.extra {
+      background: #fff3e8;
+      border-color: #f1bf8b;
+      color: #8a4a12;
+    }
+
+    .arrow {
+      text-align: center;
+      color: #6b7787;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #dbe3ee;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #eaf4fb;
+      color: #21618c;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .diagram {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .lane {
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 500px;
+    }
+
+    .lane-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .lane-title h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .pill.standard {
+      background: #eaf4fb;
+      color: #21618c;
+    }
+
+    .pill.extra {
+      background: #fff3e8;
+      color: #8a4a12;
+    }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+    }
+
+    .step {
+      border: 1px solid #dbe3ee;
+      border-radius: 9px;
+      padding: 9px 10px;
+      background: #f8fafc;
+      font-size: 11px;
+      line-height: 1.32;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #152235;
+      font-size: 12px;
+    }
+
+    .step.standard {
+      border-left: 4px solid #21618c;
+    }
+
+    .step.ops {
+      border-left: 4px solid #39a86f;
+    }
+
+    .step.extra {
+      border-left: 4px solid #d97706;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .panel {
+      padding: 16px;
+    }
+
+    .definition-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .definition-card {
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 118px;
+      box-shadow: 0 10px 24px rgba(16, 32, 51, 0.06);
+    }
+
+    .definition-card.basic {
+      border-top: 6px solid #21618c;
+    }
+
+    .definition-card.extra {
+      border-top: 6px solid #d97706;
+    }
+
+    .definition-card strong {
+      display: block;
+      color: #102033;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .scope-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(16, 32, 51, 0.06);
+    }
+
+    .scope-table th,
+    .scope-table td {
+      border-bottom: 1px solid #e3e9f2;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .scope-table th {
+      background: #eef4fb;
+      color: #102033;
+      font-size: 12px;
+    }
+
+    .scope-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .scope-table .basic-label {
+      color: #21618c;
+      font-weight: 800;
+    }
+
+    .scope-table .extra-label {
+      color: #d97706;
+      font-weight: 800;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li {
+      color: #526173;
+      font-size: 12px;
+      line-height: 1.42;
+      margin-bottom: 6px;
+    }
+
+    .module {
+      padding: 14px;
+      min-height: 132px;
+      border-top: 5px solid #21618c;
+    }
+
+    .module.extra {
+      border-top-color: #d97706;
+    }
+
+    .module.ops {
+      border-top-color: #39a86f;
+    }
+
+    .phase {
+      padding: 16px;
+      border-left: 5px solid #21618c;
+    }
+
+    .phase:nth-child(2) {
+      border-left-color: #39a86f;
+    }
+
+    .phase:nth-child(3) {
+      border-left-color: #d97706;
+    }
+
+    .phase:nth-child(4) {
+      border-left-color: #7c3aed;
+    }
+
+    .footer-note {
+      position: absolute;
+      left: 28px;
+      bottom: 18px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      color: #7b8797;
+      font-size: 10px;
+      border-top: 1px solid #dbe3ee;
+      padding-top: 10px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        border: 0;
+        border-radius: 0;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div>
+      <div class="eyebrow">Propuesta funcional</div>
+      <h1>Plataforma Ecommerce Integral</h1>
+      <p class="lead">
+        Propuesta funcional para una tienda online, separando con claridad
+        el alcance basico necesario para vender y los modulos adicionales para escalar.
+      </p>
+      <div class="meta">
+        <div class="meta-card">
+          <strong>3</strong>
+          <p>Capas principales: tienda, administracion y operacion.</p>
+        </div>
+        <div class="meta-card">
+          <strong>4</strong>
+          <p>Fases recomendadas para implementar sin perder control.</p>
+        </div>
+        <div class="meta-card">
+          <strong>2</strong>
+          <p>Tipos de alcance: funcionalidades basicas y adicionales.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-card">
+      <div class="stack">
+        <div class="flow-row">
+          <div class="node primary">Home</div>
+          <div class="node primary">Catalogo</div>
+          <div class="node primary">Producto</div>
+          <div class="node primary">Carrito</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-row">
+          <div class="node primary">Checkout</div>
+          <div class="node primary">Pago</div>
+          <div class="node primary">Confirmacion</div>
+          <div class="node ops">Dashboard</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-row">
+          <div class="node ops">Productos</div>
+          <div class="node ops">Catalogos</div>
+          <div class="node ops">Ordenes</div>
+          <div class="node extra">Adicionales</div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="flow-row">
+          <div class="node extra">Descuentos</div>
+          <div class="node extra">Tracking</div>
+          <div class="node extra">Clientes</div>
+          <div class="node extra">Analitica</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>Documento para propuesta comercial</span>
+      <span>Ecommerce funcional y escalable</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="header">
+      <div>
+        <div class="eyebrow">Diagrama de flujo</div>
+        <h2>Operacion completa del ecommerce</h2>
+        <p>El flujo muestra primero lo necesario para vender y despues los modulos que agregan valor.</p>
+      </div>
+      <span class="tag">Flujo funcional</span>
+    </div>
+
+    <div class="diagram">
+      <div class="lane">
+        <div class="lane-title">
+          <h3>Tienda publica</h3>
+          <span class="pill standard">Basico</span>
+        </div>
+        <div class="steps">
+          <div class="step standard"><strong>1. Pagina de inicio</strong>Entrada principal de la tienda y acceso al catalogo.</div>
+          <div class="step standard"><strong>2. Catalogo</strong>Listado de productos disponibles para navegar.</div>
+          <div class="step standard"><strong>3. Detalle de producto</strong>Ficha del producto con informacion necesaria para comprar.</div>
+          <div class="step standard"><strong>4. Carrito</strong>Productos seleccionados antes de finalizar la compra.</div>
+          <div class="step standard"><strong>5. Checkout</strong>Formulario de datos del comprador y datos de compra.</div>
+          <div class="step standard"><strong>6. Pago</strong>Proceso de pago de la orden.</div>
+          <div class="step standard"><strong>7. Confirmacion</strong>Resultado de compra y confirmacion de la orden.</div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-title">
+          <h3>Administracion</h3>
+          <span class="pill standard">Basico</span>
+        </div>
+        <div class="steps">
+          <div class="step ops"><strong>1. Dashboard</strong>Vista general administrativa de la tienda.</div>
+          <div class="step ops"><strong>2. Productos</strong>Administracion basica del catalogo de productos.</div>
+          <div class="step ops"><strong>3. Catalogos</strong>Administracion de datos base como categorias o clasificaciones.</div>
+          <div class="step ops"><strong>4. Ordenes</strong>Listado y revision de las ordenes generadas por las compras.</div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-title">
+          <h3>Crecimiento</h3>
+          <span class="pill extra">Adicional</span>
+        </div>
+        <div class="steps">
+          <div class="step extra"><strong>1. Busqueda y filtros avanzados</strong>Busqueda por palabra, filtros por precio, marca, categoria y disponibilidad.</div>
+          <div class="step extra"><strong>2. Promociones y descuentos</strong>Cupones, campanas, descuentos por temporada, producto o categoria.</div>
+          <div class="step extra"><strong>3. Clientes</strong>Registro, login, direcciones, historial de compras y favoritos.</div>
+          <div class="step extra"><strong>4. Logistica y tracking</strong>Estados de envio, transportadoras, tracking manual o automatico.</div>
+          <div class="step extra"><strong>5. Facturacion y devoluciones</strong>Factura electronica, notas credito, cambios, reembolsos y devoluciones.</div>
+          <div class="step extra"><strong>6. Analitica y CRM</strong>Reportes, conversion, clientes prospecto, segmentacion y seguimiento comercial.</div>
+          <div class="step extra"><strong>7. Integraciones</strong>ERP, inventario, email, WhatsApp, transportadoras o pasarelas especificas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>Azul y verde: alcance basico para vender · Naranja: modulos adicionales para escalar</span>
+      <span>Pagina 2</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="header">
+      <div>
+        <div class="eyebrow">Alcance recomendado</div>
+        <h2>Que es basico y que es adicional</h2>
+        <p>Lo basico permite vender en linea. Lo adicional automatiza, fideliza, mide y escala la operacion.</p>
+      </div>
+      <span class="tag">Basico vs adicional</span>
+    </div>
+
+    <div class="definition-grid">
+      <div class="definition-card basic">
+        <strong>Funcionalidades basicas</strong>
+        <p>
+          Son exactamente los modulos necesarios para vender y operar una primera version:
+          inicio, catalogo, detalle, carrito, checkout, pago, confirmacion, dashboard,
+          productos, catalogos y ordenes.
+        </p>
+      </div>
+      <div class="definition-card extra">
+        <strong>Funcionalidades adicionales</strong>
+        <p>
+          Todo lo que no este en el alcance basico se considera adicional:
+          busquedas avanzadas, descuentos, clientes, logistica, facturacion,
+          devoluciones, analitica, CRM e integraciones.
+        </p>
+      </div>
+    </div>
+
+    <table class="scope-table">
+      <thead>
+        <tr>
+          <th>Modulo</th>
+          <th>Funcionalidades basicas</th>
+          <th>Funcionalidades adicionales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tienda publica</strong></td>
+          <td><span class="basic-label">Estandar:</span> pagina de inicio y catalogo.</td>
+          <td><span class="extra-label">Adicional:</span> busqueda, filtros, banners administrables, landing pages, SEO avanzado y comparador.</td>
+        </tr>
+        <tr>
+          <td><strong>Producto</strong></td>
+          <td><span class="basic-label">Estandar:</span> detalle de producto.</td>
+          <td><span class="extra-label">Adicional:</span> variantes, resenas, calificaciones, productos relacionados, stock avanzado y venta cruzada.</td>
+        </tr>
+        <tr>
+          <td><strong>Compra</strong></td>
+          <td><span class="basic-label">Estandar:</span> carrito, checkout, pago y confirmacion.</td>
+          <td><span class="extra-label">Adicional:</span> compra como invitado optimizada, pagos en cuotas, multiples pasarelas y recuperacion de pago fallido.</td>
+        </tr>
+        <tr>
+          <td><strong>Administracion</strong></td>
+          <td><span class="basic-label">Estandar:</span> dashboard, productos, catalogos y ordenes.</td>
+          <td><span class="extra-label">Adicional:</span> roles, permisos, auditoria, descuentos, inventario avanzado, multiples bodegas e historial.</td>
+        </tr>
+        <tr>
+          <td><strong>Clientes</strong></td>
+          <td><span class="basic-label">Estandar:</span> no incluido como modulo independiente; solo datos capturados en checkout.</td>
+          <td><span class="extra-label">Opcional:</span> cuenta de cliente, historial de compras, favoritos, direcciones guardadas y segmentacion.</td>
+        </tr>
+        <tr>
+          <td><strong>Marketing</strong></td>
+          <td><span class="basic-label">Estandar:</span> no incluido.</td>
+          <td><span class="extra-label">Opcional:</span> cupones avanzados, promociones dinamicas, carritos abandonados, email marketing y CRM.</td>
+        </tr>
+        <tr>
+          <td><strong>Operacion</strong></td>
+          <td><span class="basic-label">Estandar:</span> no incluido; solo visualizacion/revision de ordenes.</td>
+          <td><span class="extra-label">Opcional:</span> tracking automatico, transportadoras, facturacion electronica, devoluciones y notificaciones.</td>
+        </tr>
+        <tr>
+          <td><strong>Analitica</strong></td>
+          <td><span class="basic-label">Estandar:</span> dashboard administrativo basico.</td>
+          <td><span class="extra-label">Opcional:</span> reportes avanzados, conversion, productos mas vendidos, clientes recurrentes y prospectos.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-note">
+      <span>Regla comercial: lo basico permite vender; lo adicional permite automatizar, medir y escalar.</span>
+      <span>Pagina 3</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="header">
+      <div>
+        <div class="eyebrow">Implementacion por fases</div>
+        <h2>Ruta recomendada para el proyecto</h2>
+        <p>Una ejecucion por fases reduce riesgo, permite validar negocio y habilita mejoras medibles.</p>
+      </div>
+      <span class="tag">Roadmap</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="phase">
+        <h3>Fase 1 · Estandar tienda</h3>
+        <p>Pagina de inicio, catalogo, detalle de producto, carrito, checkout, pago y confirmacion.</p>
+      </div>
+      <div class="phase">
+        <h3>Fase 2 · Estandar administracion</h3>
+        <p>Dashboard, productos, catalogos y ordenes.</p>
+      </div>
+      <div class="phase">
+        <h3>Fase 3 · Adicional operativo</h3>
+        <p>Stock avanzado, descuentos, tracking, envios, devoluciones, facturacion electronica y notificaciones.</p>
+      </div>
+      <div class="phase">
+        <h3>Fase 4 · Adicional de crecimiento</h3>
+        <p>Analitica, CRM, segmentacion, automatizaciones, carritos abandonados e integraciones externas.</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px;">
+      <h3>Recomendacion para presentar al cliente</h3>
+      <p>
+        Cotizar como estandar solamente: pagina de inicio, catalogo, detalle de producto, carrito, checkout,
+        pago, confirmacion, dashboard, productos, catalogos y ordenes. Presentar todo lo demas como adicional:
+        descuentos, clientes, stock avanzado, promociones, tracking, facturacion electronica, devoluciones,
+        analitica, CRM e integraciones.
+      </p>
+    </div>
+
+    <div class="footer-note">
+      <span>Propuesta preparada para decision comercial y tecnica</span>
+      <span>Pagina 4</span>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagrama de flujo ecommerce</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: #eef2f7;
+      color: #172033;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 190mm;
+      background: #f8fafc;
+      padding: 24px;
+      border: 1px solid #d8e1ee;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #d8e1ee;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.05;
+      color: #0f172a;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      color: #0f172a;
+    }
+
+    p {
+      margin: 0;
+      color: #526174;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .dot.standard {
+      background: #2563eb;
+    }
+
+    .dot.admin {
+      background: #16a34a;
+    }
+
+    .dot.extra {
+      background: #ea580c;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d8e1ee;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+    }
+
+    .standard-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px 16px;
+      align-items: stretch;
+      margin-top: 14px;
+    }
+
+    .node {
+      min-height: 58px;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+      position: relative;
+      border: 1px solid transparent;
+    }
+
+    .node.standard {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+
+    .node.admin {
+      background: #ecfdf3;
+      border-color: #86efac;
+      color: #15803d;
+    }
+
+    .node.extra {
+      min-height: 48px;
+      background: #fff7ed;
+      border-color: #fdba74;
+      color: #c2410c;
+      font-size: 11px;
+    }
+
+    .arrow-right::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      font-size: 17px;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .arrow-down::after {
+      content: "↓";
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #64748b;
+      font-size: 17px;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-label.standard {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .section-label.admin {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+
+    .section-label.extra {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .admin-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .connector {
+      text-align: center;
+      color: #64748b;
+      font-size: 21px;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .rule {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #0f172a;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid #d8e1ee;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 9px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+      font-size: 11px;
+      line-height: 1.35;
+      vertical-align: top;
+    }
+
+    .mini-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-size: 12px;
+    }
+
+    .mini-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 16px;
+      border-top: 1px solid #d8e1ee;
+      padding-top: 9px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #64748b;
+      font-size: 10px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        border: 0;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <div class="eyebrow">Diagrama de flujo ecommerce</div>
+        <h1>Alcance estandar vs. funcionalidades adicionales</h1>
+        <p>El estandar es el flujo minimo acordado. Todo modulo fuera de esta linea se cotiza como adicional.</p>
+      </div>
+      <div class="legend">
+        <span><i class="dot standard"></i> Estandar tienda</span>
+        <span><i class="dot admin"></i> Estandar admin</span>
+        <span><i class="dot extra"></i> Adicional</span>
+      </div>
+    </header>
+
+    <section class="layout">
+      <div class="panel">
+        <span class="section-label standard">Funcionalidades estandar</span>
+        <h2>Flujo base de compra</h2>
+        <p>Este flujo permite que el cliente navegue, compre, pague y reciba confirmacion.</p>
+
+        <div class="standard-flow">
+          <div class="node standard arrow-right">Pagina de inicio</div>
+          <div class="node standard arrow-right">Catalogo</div>
+          <div class="node standard arrow-right">Detalle de producto</div>
+          <div class="node standard arrow-down">Carrito</div>
+
+          <div class="node standard">Confirmacion</div>
+          <div class="node standard arrow-right">Pago</div>
+          <div class="node standard arrow-right">Checkout</div>
+          <div class="node standard arrow-down">Revision de carrito</div>
+        </div>
+
+        <div class="connector">↓</div>
+
+        <span class="section-label admin">Administracion estandar</span>
+        <h2>Panel minimo para operar la tienda</h2>
+        <p>Estos modulos permiten administrar la primera version del ecommerce.</p>
+
+        <div class="admin-row">
+          <div class="node admin arrow-right">Dashboard</div>
+          <div class="node admin arrow-right">Productos</div>
+          <div class="node admin arrow-right">Catalogos</div>
+          <div class="node admin">Ordenes</div>
+        </div>
+
+        <div class="rule">
+          <strong>Regla de alcance estandar</strong>
+          <p>
+            Estandar = pagina de inicio, catalogo, detalle de producto, carrito,
+            checkout, pago, confirmacion, dashboard, productos, catalogos y ordenes.
+          </p>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <span class="section-label extra">Funcionalidades adicionales</span>
+        <h2>Modulos opcionales para escalar</h2>
+        <p>Estas funciones agregan automatizacion, marketing, control operativo, datos o integraciones.</p>
+
+        <div class="extra-grid">
+          <div class="node extra">Busqueda y filtros avanzados</div>
+          <div class="node extra">Promociones y descuentos</div>
+          <div class="node extra">Clientes registrados</div>
+          <div class="node extra">Favoritos e historial</div>
+          <div class="node extra">Stock avanzado</div>
+          <div class="node extra">Variantes de producto</div>
+          <div class="node extra">Tracking de envios</div>
+          <div class="node extra">Transportadoras</div>
+          <div class="node extra">Facturacion electronica</div>
+          <div class="node extra">Devoluciones y reembolsos</div>
+          <div class="node extra">Analitica y reportes</div>
+          <div class="node extra">CRM y prospectos</div>
+          <div class="node extra">Carritos abandonados</div>
+          <div class="node extra">Email / WhatsApp</div>
+          <div class="node extra">Roles y permisos</div>
+          <div class="node extra">Integraciones ERP/API</div>
+        </div>
+
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Como explicarlo al cliente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Estandar</strong></td>
+              <td>Lo necesario para publicar productos, recibir compras y revisar ordenes.</td>
+            </tr>
+            <tr>
+              <td><strong>Adicional</strong></td>
+              <td>Todo lo que mejora conversion, automatiza procesos o conecta sistemas externos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <span>Documento de alcance funcional para propuesta comercial</span>
+      <span>Separacion clara: estandar cerrado + adicionales opcionales</span>
+    </footer>
+  </main>
+</body>
+</html>
